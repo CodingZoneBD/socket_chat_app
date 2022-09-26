@@ -12,11 +12,23 @@ io.on('connection', function (socket) {
     socket.on('chat', function (msg) {
         io.emit('chat_transfer', msg)
     })
+
+    // Room Join
+    socket.join('room-name');
+    // Room Active user
+    let roomSize = io.sockets.adapter.rooms.get('room-name').size;
+    // Room Event fire
+    io.sockets.in('room-name').emit('working', "This room " + roomSize + " member now working")
+
 })
 
 
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '/index.html');
+});
+
+app.get('/room', function (req, res) {
+    res.sendFile(__dirname + '/room.html');
 });
 
 
